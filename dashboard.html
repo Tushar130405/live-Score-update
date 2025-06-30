@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="players.html">Players</a></li>
+                    <li><a href="teams.html">Teams</a></li>
+                    <li><a href="matches.html">Matches</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <h1>Welcome to the Admin Dashboard!</h1>
+            <p>Use the sidebar to navigate and manage cricket stats.</p>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if authenticated (simple check, backend will re-validate token for actual data)
+            if (!localStorage.getItem('adminAuthToken')) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.logout(); // Call the logout function from auth.js
+                });
+            }
+        });
+    </script>
+</body>
+</html>
