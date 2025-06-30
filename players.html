@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Player Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="players.html" class="active">Players</a></li>
+                    <li><a href="teams.html">Teams</a></li>
+                    <li><a href="matches.html">Matches</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <h1>Player Management</h1>
+
+            <button id="add-player-btn" class="btn btn-primary">Add New Player</button>
+
+            <div class="form-container" id="player-form-container" style="display:none;">
+                <h2>Add/Edit Player</h2>
+                <form id="player-form">
+                    <input type="hidden" id="player-id">
+                    <label for="player-name">Name:</label>
+                    <input type="text" id="player-name" required><br>
+
+                    <label for="player-country">Country:</label>
+                    <input type="text" id="player-country"><br>
+
+                    <label for="player-role">Role:</label>
+                    <select id="player-role">
+                        <option value="Batsman">Batsman</option>
+                        <option value="Bowler">Bowler</option>
+                        <option value="All-Rounder">All-Rounder</option>
+                        <option value="Wicket-Keeper">Wicket-Keeper</option>
+                    </select><br>
+
+                    <button type="submit" class="btn btn-success">Save Player</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-player-form">Cancel</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2>Existing Players</h2>
+                <table id="players-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Country</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/players.js"></script>
+    <script src="js/auth.js"></script> </body>
+</html>
