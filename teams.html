@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Team Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="players.html">Players</a></li>
+                    <li><a href="teams.html" class="active">Teams</a></li>
+                    <li><a href="matches.html">Matches</a></li>
+                    <li><a href="batsman-stats.html">Batsman Stats</a></li>
+                    <li><a href="bowler-stats.html">Bowler Stats</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <h1>Team Management</h1>
+
+            <button id="add-team-btn" class="btn btn-primary">Add New Team</button>
+
+            <div class="form-container" id="team-form-container" style="display:none;">
+                <h2>Add/Edit Team</h2>
+                <form id="team-form">
+                    <input type="hidden" id="team-id">
+                    <label for="team-name">Team Name:</label>
+                    <input type="text" id="team-name" required><br>
+
+                    <label for="team-country">Country:</label>
+                    <input type="text" id="team-country"><br>
+
+                    <label for="team-logo-url">Logo URL (Optional):</label>
+                    <input type="text" id="team-logo-url" placeholder="http://example.com/logo.png"><br>
+
+                    <button type="submit" class="btn btn-success">Save Team</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-team-form">Cancel</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2>Existing Teams</h2>
+                <table id="teams-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Country</th>
+                            <th>Logo</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/teams.js"></script>
+</body>
+</html>

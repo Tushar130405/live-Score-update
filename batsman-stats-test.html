@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batsman Stats Test</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Cricket Stats Admin - Batsman Statistics Test</h1>
+            <nav class="admin-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="players.html">Players</a>
+                <a href="teams.html">Teams</a>
+                <a href="matches.html">Matches</a>
+                <a href="batsman-stats.html" class="nav-batsman-stats">Batsman Stats</a>
+                <a href="bowler-stats.html" class="nav-bowler-stats">Bowler Stats</a>
+                <a href="logout.html">Logout</a>
+            </nav>
+        </header>
+
+        <main class="admin-main">
+            <div class="page-header">
+                <h2>Batsman Statistics Test</h2>
+                <button id="add-batsman-stats-btn" class="btn btn-primary">Add Batsman Stats</button>
+            </div>
+
+            <div class="table-container">
+                <table class="stats-table" id="batsman-stats-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Match</th>
+                            <th>Innings</th>
+                            <th>Runs</th>
+                            <th>Balls</th>
+                            <th>4s</th>
+                            <th>6s</th>
+                            <th>Strike Rate</th>
+                            <th>Dismissal</th>
+                            <th>Bowler</th>
+                            <th>Fielder</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="batsman-stats-tbody">
+                        <!-- Stats will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/batsman-stats-simple.js"></script>
+</body>
+</html> 

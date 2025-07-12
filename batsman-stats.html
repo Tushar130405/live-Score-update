@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batsman Statistics - Cricket Stats Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .stats-filters {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .stats-filters .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        .stats-filters .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .stats-summary {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .stats-summary .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .summary-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .summary-item .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .summary-item .label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .stats-table th,
+        .stats-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .stats-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        .stats-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .player-name {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        .team-name {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .stats-value {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        .strike-rate {
+            color: #4caf50;
+        }
+        .average {
+            color: #ff9800;
+        }
+        .dismissal-type {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .dismissal-bowled { background: #ffebee; color: #c62828; }
+        .dismissal-caught { background: #e8f5e8; color: #2e7d32; }
+        .dismissal-lbw { background: #fff3e0; color: #ef6c00; }
+        .dismissal-run-out { background: #f3e5f5; color: #7b1fa2; }
+        .dismissal-stumped { background: #e0f2f1; color: #00695c; }
+        .dismissal-not-out { background: #e8eaf6; color: #3f51b5; }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination button.active {
+            background: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+        .export-buttons {
+            margin-bottom: 20px;
+        }
+        .export-buttons button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cricket Stats Admin</h1>
+            <nav>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="players.html">Players</a>
+                <a href="teams.html">Teams</a>
+                <a href="matches.html">Matches</a>
+                <a href="batsman-stats.html" class="active">Batsman Stats</a>
+                <a href="bowler-stats.html">Bowler Stats</a>
+                <a href="logout.html">Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="content-header">
+                <h2>Batsman Statistics</h2>
+                <button id="add-batsman-stats-btn" class="btn btn-primary">Add Batsman Stats</button>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="stats-summary">
+                <h3>Summary Statistics</h3>
+                <div class="summary-grid" id="summary-stats">
+                    <!-- Summary stats will be populated here -->
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="stats-filters">
+                <h3>Filters</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="player-filter">Player:</label>
+                        <select id="player-filter">
+                            <option value="">All Players</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="team-filter">Team:</label>
+                        <select id="team-filter">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="format-filter">Format:</label>
+                        <select id="format-filter">
+                            <option value="">All Formats</option>
+                            <option value="Test">Test</option>
+                            <option value="ODI">ODI</option>
+                            <option value="T20">T20</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date-from">From Date:</label>
+                        <input type="date" id="date-from">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-to">To Date:</label>
+                        <input type="date" id="date-to">
+                    </div>
+                    <div class="form-group">
+                        <button id="apply-filters-btn" class="btn btn-secondary">Apply Filters</button>
+                        <button id="clear-filters-btn" class="btn btn-outline">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Buttons -->
+            <div class="export-buttons">
+                <button id="export-csv-btn" class="btn btn-success">Export to CSV</button>
+                <button id="export-json-btn" class="btn btn-info">Export to JSON</button>
+            </div>
+
+            <!-- Stats Table -->
+            <div class="table-container">
+                <table class="stats-table" id="batsman-stats-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Match</th>
+                            <th>Innings</th>
+                            <th>Runs</th>
+                            <th>Balls</th>
+                            <th>4s</th>
+                            <th>6s</th>
+                            <th>Strike Rate</th>
+                            <th>Dismissal</th>
+                            <th>Bowler</th>
+                            <th>Fielder</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="batsman-stats-tbody">
+                        <!-- Stats will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination controls will be populated here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Batsman Stats Modal -->
+    <div id="batsman-stats-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add Batsman Statistics</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="batsman-stats-form">
+                <input type="hidden" id="stats-id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stats-player">Player:</label>
+                        <select id="stats-player" required>
+                            <option value="">Select Player</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-match">Match:</label>
+                        <select id="stats-match" required>
+                            <option value="">Select Match</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stats-innings">Innings:</label>
+                        <input type="number" id="stats-innings" min="1" max="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-batting-team">Batting Team:</label>
+                        <select id="stats-batting-team" required>
+                            <option value="">Select Team</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-bowling-team">Bowling Team:</label>
+                        <select id="stats-bowling-team" required>
+                            <option value="">Select Team</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stats-runs">Runs:</label>
+                        <input type="number" id="stats-runs" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-balls">Balls:</label>
+                        <input type="number" id="stats-balls" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-fours">Fours:</label>
+                        <input type="number" id="stats-fours" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-sixes">Sixes:</label>
+                        <input type="number" id="stats-sixes" min="0" value="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="stats-not-out"> Not Out
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-dismissal-type">Dismissal Type:</label>
+                        <select id="stats-dismissal-type">
+                            <option value="">N/A</option>
+                            <option value="bowled">Bowled</option>
+                            <option value="caught">Caught</option>
+                            <option value="lbw">LBW</option>
+                            <option value="run out">Run Out</option>
+                            <option value="stumped">Stumped</option>
+                            <option value="hit wicket">Hit Wicket</option>
+                            <option value="retired hurt">Retired Hurt</option>
+                            <option value="obstructing the field">Obstructing the Field</option>
+                            <option value="handled the ball">Handled the Ball</option>
+                            <option value="timed out">Timed Out</option>
+                            <option value="did not bat">Did Not Bat</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stats-bowler-dismissal">Bowler (Dismissal):</label>
+                        <select id="stats-bowler-dismissal">
+                            <option value="">Select Bowler</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stats-fielder-dismissal">Fielder (Dismissal):</label>
+                        <select id="stats-fielder-dismissal">
+                            <option value="">Select Fielder</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Stats</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-stats-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/batsman-stats.js"></script>
+</body>
+</html> 

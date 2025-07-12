@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test Page</h1>
+    <div id="test-output"></div>
+    
+    <script>
+        console.log('Debug test page loaded');
+        
+        // Test basic JavaScript functionality
+        try {
+            const testElement = document.getElementById('test-output');
+            testElement.innerHTML = '<p>JavaScript is working!</p>';
+            console.log('Basic DOM manipulation successful');
+        } catch (error) {
+            console.error('Basic DOM test failed:', error);
+        }
+        
+        // Test async/await
+        async function testAsync() {
+            try {
+                console.log('Testing async/await...');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                console.log('Async/await working');
+                return true;
+            } catch (error) {
+                console.error('Async/await test failed:', error);
+                return false;
+            }
+        }
+        
+        testAsync();
+        
+        // Test fetch API
+        async function testFetch() {
+            try {
+                console.log('Testing fetch API...');
+                const response = await fetch('http://localhost:3000/api/players');
+                console.log('Fetch test response status:', response.status);
+                return response.ok;
+            } catch (error) {
+                console.error('Fetch test failed:', error);
+                return false;
+            }
+        }
+        
+        testFetch();
+    </script>
+</body>
+</html> 
