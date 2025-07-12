@@ -17,6 +17,8 @@
                     <li><a href="players.html">Players</a></li>
                     <li><a href="teams.html">Teams</a></li>
                     <li><a href="matches.html">Matches</a></li>
+                    <li><a href="batsman-stats.html">Batsman Stats</a></li>
+                    <li><a href="bowler-stats.html">Bowler Stats</a></li>
                     <li><a href="#" id="logout-btn">Logout</a></li>
                 </ul>
             </nav>
@@ -25,25 +27,36 @@
         <main class="content">
             <h1>Welcome to the Admin Dashboard!</h1>
             <p>Use the sidebar to navigate and manage cricket stats.</p>
+            
+            <div class="dashboard-stats">
+                <h2>Quick Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Players</h3>
+                        <p id="total-players">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Teams</h3>
+                        <p id="total-teams">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Matches</h3>
+                        <p id="total-matches">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Batsman Stats</h3>
+                        <p id="total-batsman-stats">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Bowler Stats</h3>
+                        <p id="total-bowler-stats">Loading...</p>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <script src="js/auth.js"></script> <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if authenticated (simple check, backend will re-validate token for actual data)
-            if (!localStorage.getItem('adminAuthToken')) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const logoutBtn = document.getElementById('logout-btn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.logout(); // Call the logout function from auth.js
-                });
-            }
-        });
-    </script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
